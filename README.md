@@ -187,10 +187,10 @@ cd tests && pytest integration/
 
 | Name | Role | GitHub |
 |---|---|---|
-| [Name 1] | Frontend Lead | [@username] |
-| [Name 2] | Backend Lead | [@username] |
-| [Name 3] | AI Layer Lead | [@username] |
-| [Name 4] | Mesh/3D Processing Lead | [@username] |
+| Manav Rai | Frontend Lead | @m0v021-web |
+| Swagath BL | Backend Lead | @swagath20 |
+| Vishnu G Nair | AI Layer Lead | @Maidenless200 |
+| Alfi Nousahd | Mesh/3D Processing Lead | @Alfi-Noushad |
 
 ## Project Documentation
 
