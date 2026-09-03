@@ -1,0 +1,5 @@
+# Requires Python 3.10.x (Open3D 0.18.0 / PyMeshLab do not yet support 3.12+)
+open3d==0.18.0
+trimesh==4.4.9
+pymeshlab==2023.12.post1
+numpy==1.26.4
