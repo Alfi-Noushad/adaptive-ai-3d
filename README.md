@@ -187,7 +187,7 @@ cd tests && pytest integration/
 
 | Name | Role | GitHub |
 |---|---|---|
-| Manav Rai | Frontend Lead | @m0v021-web |
+| Manav Rai | Frontend Lead | @manavrai-as |
 | Swagath BL | Backend Lead | @swagath20 |
 | Vishnu G Nair | AI Layer Lead | @Maidenless200 |
 | Alfi Nousahd | Mesh/3D Processing Lead | @Alfi-Noushad |
