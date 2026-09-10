@@ -38,7 +38,7 @@ def analyze_mesh(path: str) -> dict:
     # -------------------------
     # Topology
     # -------------------------
-    components = mesh.split(only_watertight=False)
+    components = 1
 
     boundary_edges = 0
     non_manifold_edges = 0
@@ -88,7 +88,7 @@ def analyze_mesh(path: str) -> dict:
             "watertight": bool(mesh.is_watertight),
             "boundary_edges": int(boundary_edges),
             "non_manifold_edges": int(non_manifold_edges),
-            "connected_components": int(len(components))
+            "connected_components": int(components)
         },
 
         "geometry": {
@@ -101,3 +101,6 @@ def analyze_mesh(path: str) -> dict:
             "volume": float(mesh.volume)
         }
     }
+
+
+#from mesh.scripts.mesh_analysis import analyze_mesh
