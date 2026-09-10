@@ -34,3 +34,6 @@ Thumbs.db
 storage/uploads/
 storage/exports/
 
+#images
+*jpg
+yolo11n.pt
