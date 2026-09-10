@@ -1,6 +1,8 @@
+#imports
 import open3d as o3d
 import trimesh
 import pymeshlab
+
 
 
 def analyze_mesh(path: str) -> dict:
