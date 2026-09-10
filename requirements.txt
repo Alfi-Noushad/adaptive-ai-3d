@@ -1,23 +1,33 @@
-# Mesh -------------------
-# Requires Python 3.10.x (Open3D 0.18.0 / PyMeshLab do not yet support 3.12+)
-open3d==0.18.0
-trimesh==4.4.9
-pymeshlab==2023.12.post1
-numpy==1.26.4
+# Mesh Processing ---------------------------------------------
+# Requires Python 3.10 or 3.11 (Open3D & PyMeshLab do not support 3.12+)
+open3d>=0.18.0
+trimesh>=4.4.0
+pymeshlab>=2023.12.post1
+numpy>=1.26.0,<2.0.0
+scipy>=1.11.0
+Pillow>=10.0.0
 
-
-
-# Backend ----------------
+# Backend Core & API ------------------------------------------
 fastapi>=0.110.0,<1.0.0
 uvicorn[standard]>=0.28.0,<1.0.0
+python-multipart>=0.0.9
+
+# Data Validation & Serialization -----------------------------
+pydantic>=2.6.4,<3.0.0
+pydantic-settings>=2.2.1
+email-validator>=2.0.0
+
+# Database & Migrations ---------------------------------------
 sqlalchemy>=2.0.28,<3.0.0
 alembic>=1.13.1,<2.0.0
 psycopg2-binary>=2.9.9
-pydantic>=2.6.4,<3.0.0
-pydantic-settings>=2.2.1
-python-dotenv>=1.0.1
-python-jose[cryptography]>=3.3.0
-passlib[bcrypt]>=1.7.4
 redis>=5.0.3
+
+# Authentication & Security -----------------------------------
+bcrypt>=4.0.0
+python-jose[cryptography]>=3.3.0
+python-dotenv>=1.0.1
+
+# Testing & Client Tools --------------------------------------
 pytest>=8.1.1
 httpx>=0.27.0

@@ -3,11 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.health import router as health_router
 from app.api.auth import router as auth_router
+from app.api.analyze import router as analyze_router
 
 app = FastAPI(
     title="2D to 3D Mesh Converter API",
     description="Backend service for 2D image ingestion, 3D mesh generation, and quality evaluation.",
-    version="0.1.0"
+    version="0.1.0",
 )
 
 # CORS configuration to allow frontend clients to connect
@@ -22,3 +23,4 @@ app.add_middleware(
 # Include API Routers
 app.include_router(health_router)
 app.include_router(auth_router)
+app.include_router(analyze_router)
