@@ -1,5 +1,5 @@
 import open3d as o3d
-from mesh.scripts.mesh_analyasis import analyze_mesh
+from mesh.analysis.mesh_analysis import analyze_mesh
 
 dataset = o3d.data.KnotMesh()
 obj_path = dataset.path
