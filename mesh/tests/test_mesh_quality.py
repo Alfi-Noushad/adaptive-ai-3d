@@ -1,5 +1,5 @@
 import open3d as o3d
-from mesh.scripts.mesh_quality import evaluate_mesh_quality
+from mesh.analysis.mesh_quality import evaluate_mesh_quality
 
 dataset = o3d.data.KnotMesh()
 obj_path = dataset.path
