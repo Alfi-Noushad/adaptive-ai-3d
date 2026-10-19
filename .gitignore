@@ -37,3 +37,6 @@ storage/exports/
 #images
 *jpg
 yolo11n.pt
+
+#mesh files
+storage/
