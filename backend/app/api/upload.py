@@ -5,7 +5,7 @@ from typing import Optional
 from app.database.session import get_db
 from app.models.entities import Project, Image, User
 from app.storage.file_storage import save_uploaded_image
-from app.jobs.queue import create_job, dispatch_job
+from app.jobs.queue import create_job, dispatch_pipeline
 from app.core.response import api_response
 
 router = APIRouter(tags=["Upload & Ingestion"])
@@ -26,8 +26,10 @@ def upload_image_pipeline(
             db.commit()
             db.refresh(user)
 
+    # 1. Validate and save file to storage/uploads
     saved_meta = save_uploaded_image(file)
 
+    # 2. Create Project row
     project = Project(
         user_id=user.id,
         title=title,
@@ -37,6 +39,7 @@ def upload_image_pipeline(
     db.commit()
     db.refresh(project)
 
+    # 3. Create Image metadata row
     image_record = Image(
         project_id=project.id,
         filename=saved_meta["filename"],
@@ -48,12 +51,13 @@ def upload_image_pipeline(
     db.commit()
     db.refresh(image_record)
 
+    # 4. Dispatch full background pipeline orchestration
     job_id = create_job("image_reconstruction", {"project_id": project.id, "image_id": image_record.id})
-    dispatch_job(job_id)
+    dispatch_pipeline(job_id, project.id, image_record.storage_path)
 
     return api_response(
         status="success",
-        message="Image ingested successfully. Reconstruction job queued.",
+        message="Image ingested successfully. Reconstruction pipeline running.",
         data={
             "project_id": project.id,
             "image_id": image_record.id,
