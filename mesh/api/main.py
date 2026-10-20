@@ -6,7 +6,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from mesh.utils.response import success_response, error_response
 from mesh.api.routes_analysis import router as analysis_router
 from mesh.api.routes_repair import router as repair_router
-
+from mesh.api.routes_optimize import router as optimize_router
 
 
 
@@ -15,6 +15,7 @@ app = FastAPI(title="Mesh Layer", version="0.1.0")
 
 app.include_router(analysis_router)
 app.include_router(repair_router)
+app.include_router(optimize_router)
 
 
 @app.exception_handler(RequestValidationError)
