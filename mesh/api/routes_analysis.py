@@ -7,7 +7,6 @@ from mesh.utils.response import success_response
 from mesh.utils.storage import resolve_mesh_path
 from mesh.analysis.failure_detection import detect_failures
 
-
 router = APIRouter()
 
 
