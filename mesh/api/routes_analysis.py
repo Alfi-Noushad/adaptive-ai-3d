@@ -20,11 +20,6 @@ def analyze(req: MeshPathRequest):
     return success_response(analyze_mesh(path), "Mesh analysis complete")
 
 
-@router.post("/evaluate")
-def evaluate(req: MeshPathRequest):
-    path = resolve_mesh_path(req.mesh_path)
-    return success_response(evaluate_mesh_quality(path), "Mesh quality evaluation complete")
-
 
 @router.post("/evaluate")
 def evaluate(req: MeshPathRequest):

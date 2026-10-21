@@ -14,10 +14,10 @@ def evaluate_mesh_quality(path: str) -> dict:
     etc.) is Task 4's job — this task scores severity, not full detail.
     """
 
-    mesh = trimesh.load(path, force="mesh")
-    if isinstance(mesh, trimesh.Scene):
-        mesh = trimesh.util.concatenate(tuple(mesh.geometry.values()))
-
+    raw = trimesh.load(path, force="mesh", process=False)
+    duplicate_vertex_count = len(raw.vertices) - len(np.unique(raw.vertices, axis=0))
+    mesh = raw.copy()
+    mesh.merge_vertices()
     # -------------------------
     # Raw signals
     # -------------------------
@@ -33,10 +33,7 @@ def evaluate_mesh_quality(path: str) -> dict:
     boundary_edge_count = int(np.sum(edge_counts == 1))
     non_manifold_edge_count = int(np.sum(edge_counts > 2))
 
-    # Duplicate vertices
-    unique_vertices = trimesh.grouping.unique_rows(mesh.vertices)[0]
-    duplicate_vertex_count = len(mesh.vertices) - len(unique_vertices)
-
+    
     # Degenerate faces (zero-area triangles)
     degenerate_face_count = int(np.sum(mesh.area_faces < 1e-8))
 
