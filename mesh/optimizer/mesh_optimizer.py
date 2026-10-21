@@ -5,6 +5,7 @@ import pymeshlab
 import trimesh
 
 
+
 SUBDIVIDE_BELOW = 2_000
 DECIMATE_ABOVE = 20_000
 DEVIATION_SAMPLES = 20_000
