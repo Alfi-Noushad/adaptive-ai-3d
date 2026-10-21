@@ -3,7 +3,7 @@ import time
 import numpy as np
 import pymeshlab
 import trimesh
-from scipy.spatial import cKDTree
+
 
 SUBDIVIDE_BELOW = 2_000
 DECIMATE_ABOVE = 20_000
