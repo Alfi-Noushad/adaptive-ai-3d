@@ -79,7 +79,7 @@ async def _pipeline_orchestration(job_id: str, project_id: int, image_path: str)
         )
         db.add(mesh_rep)
 
-        # 4. Update Project Status
+        # 4. Update Project Status to Completed
         project = db.query(Project).filter(Project.id == project_id).first()
         if project:
             project.status = "completed"

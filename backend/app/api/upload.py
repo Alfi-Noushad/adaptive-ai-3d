@@ -26,10 +26,8 @@ def upload_image_pipeline(
             db.commit()
             db.refresh(user)
 
-    # 1. Validate and save file to storage/uploads
     saved_meta = save_uploaded_image(file)
 
-    # 2. Create Project row
     project = Project(
         user_id=user.id,
         title=title,
@@ -39,7 +37,6 @@ def upload_image_pipeline(
     db.commit()
     db.refresh(project)
 
-    # 3. Create Image metadata row
     image_record = Image(
         project_id=project.id,
         filename=saved_meta["filename"],
@@ -51,7 +48,6 @@ def upload_image_pipeline(
     db.commit()
     db.refresh(image_record)
 
-    # 4. Dispatch full background pipeline orchestration
     job_id = create_job("image_reconstruction", {"project_id": project.id, "image_id": image_record.id})
     dispatch_pipeline(job_id, project.id, image_record.storage_path)
 
