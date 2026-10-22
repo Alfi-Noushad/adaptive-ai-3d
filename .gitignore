@@ -38,5 +38,7 @@ storage/exports/
 *jpg
 yolo11n.pt
 
+*.db
+storage/uploads/*
 #mesh files
 storage/
