@@ -8,7 +8,7 @@ from mesh.api.routes_analysis import router as analysis_router
 from mesh.api.routes_repair import router as repair_router
 from mesh.api.routes_optimize import router as optimize_router
 from mesh.api.routes_export import router as export_router
-
+from mesh.api.routes_report import router as report_router
 
 
 app = FastAPI(title="Mesh Layer", version="0.1.0")
@@ -17,6 +17,7 @@ app.include_router(analysis_router)
 app.include_router(repair_router)
 app.include_router(optimize_router)
 app.include_router(export_router)
+app.include_router(report_router)
 
 
 @app.exception_handler(RequestValidationError)
