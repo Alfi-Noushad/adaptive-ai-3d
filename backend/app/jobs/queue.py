@@ -58,18 +58,52 @@ async def _pipeline_orchestration(job_id: str, project_id: int, image_path: str)
         )
         db.add(ai_rep)
 
-        # 2. Track Generated Mesh
+        # The AI/reconstruction layer must provide a path inside the shared mesh volume.
+        mesh_path = (
+            ai_res.get("generated_mesh_path")
+            or ai_res.get("mesh_path")
+            or ai_res.get("mesh_reference")
+        )
+        if not isinstance(mesh_path, str) or not mesh_path.strip():
+            project = db.query(Project).filter(Project.id == project_id).first()
+            if project:
+                project.status = "awaiting_mesh"
+            db.commit()
+            _JOB_REGISTRY[job_id]["status"] = "Awaiting mesh"
+            _JOB_REGISTRY[job_id]["result"] = {
+                "project_id": project_id,
+                "message": "Reconstruction has not supplied a mesh path yet.",
+            }
+            return
+
+        # 3. Mesh Layer: evaluate, conditionally repair, then optimize.
+        mesh_res = await mesh_client.evaluate_repair_optimize(mesh_path)
+        preview_export = await mesh_client.export_mesh(
+            mesh_res.get("optimized_mesh_path", mesh_path), "glb"
+        )
+        initial_geometry = mesh_res.get("initial_analysis", {}).get("mesh", {})
+        optimized_geometry = mesh_res.get("optimized_analysis", {}).get("mesh", {})
         mesh_record = GeneratedMesh(
             project_id=project_id,
             mesh_type="initial",
-            storage_path=f"storage/meshes/model_{project_id}.obj",
-            vertex_count=28450,
-            face_count=56000
+            version=1,
+            storage_path=mesh_path,
+            vertex_count=initial_geometry.get("vertices"),
+            face_count=initial_geometry.get("faces"),
         )
         db.add(mesh_record)
 
-        # 3. Mesh Layer: Evaluation & Topology Repair
-        mesh_res = await mesh_client.evaluate_and_repair(mesh_record.storage_path)
+        optimized_path = mesh_res.get("optimized_mesh_path")
+        if optimized_path and optimized_path != mesh_path:
+            db.add(GeneratedMesh(
+                project_id=project_id,
+                mesh_type="optimized",
+                version=2,
+                storage_path=optimized_path,
+                vertex_count=optimized_geometry.get("vertices"),
+                face_count=optimized_geometry.get("faces"),
+            ))
+
         mesh_rep = MeshQualityReport(
             project_id=project_id,
             topology_grade=mesh_res.get("topology_grade"),
@@ -92,10 +126,16 @@ async def _pipeline_orchestration(job_id: str, project_id: int, image_path: str)
             "project_id": project_id,
             "selected_model": ai_res.get("selected_model"),
             "topology_grade": mesh_res.get("topology_grade"),
+            "optimized_mesh_path": mesh_res.get("optimized_mesh_path"),
+            "preview_mesh_path": preview_export.get("export_path"),
             "status": "ready"
         }
     except Exception as e:
         db.rollback()
+        project = db.query(Project).filter(Project.id == project_id).first()
+        if project:
+            project.status = "failed"
+            db.commit()
         _JOB_REGISTRY[job_id]["status"] = "Failed"
         _JOB_REGISTRY[job_id]["error"] = str(e)
     finally:

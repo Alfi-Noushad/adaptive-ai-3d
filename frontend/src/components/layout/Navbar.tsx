@@ -26,7 +26,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
         <Button variant="ghost" size="icon" className="md:hidden" onClick={onMenuClick} aria-label="Open navigation">
           <FiMenu className="h-5 w-5" />
         </Button>
-        <span className="font-semibold">Nexus</span>
+        <span className="font-semibold">Adaptive AI 3D</span>
       </div>
       <div className="flex items-center gap-2">
         {user && <span className="hidden text-sm text-muted-foreground sm:inline">{user.name}</span>}

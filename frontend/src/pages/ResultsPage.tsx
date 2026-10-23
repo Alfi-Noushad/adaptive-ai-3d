@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button'
 import PromptEditPanel from '../components/results/PromptEditPanel'
 import ExportActions from '../components/results/ExportActions'
 import { projectService } from '../services/projectService'
+import { api } from '../services/api'
 import type { ProjectReport } from '../types/api'
 
 const ModelViewer = lazy(() => import('../viewer/ModelViewer'))
@@ -29,7 +30,8 @@ export default function ResultsPage() {
   const refreshReport = useCallback(() => { setLoading(true); setError(''); setRefresh((value) => value + 1) }, [])
   useEffect(() => { let active = true; projectService.getReport(id).then((result) => { if (active) { setReport(result.full_report || result); setLoadedId(id) } }).catch((cause: unknown) => { if (active) { setError(cause instanceof Error ? cause.message : 'Could not load this report.'); setLoadedId(id) } }).finally(() => { if (active) setLoading(false) }); return () => { active = false } }, [id, refresh])
   const isLoading = loading || loadedId !== id
-  const meshUrl = findString(report, ['optimized_mesh_url', 'mesh_url', 'glb_url'])
+  const meshAssetPath = findString(report, ['optimized_mesh_url', 'mesh_url', 'glb_url'])
+  const meshUrl = meshAssetPath ? new URL(meshAssetPath, api.defaults.baseURL).toString() : undefined
   const imageUrl = findString(report, ['original_image_url', 'image_url', 'source_image_url'])
   const ai = report?.ai_evaluation_report as Record<string, unknown> | undefined
   const mesh = report?.mesh_quality_report as Record<string, unknown> | undefined

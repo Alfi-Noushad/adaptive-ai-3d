@@ -1,0 +1,7 @@
+fastapi>=0.110.0,<1.0.0
+uvicorn>=0.28.0,<1.0.0
+numpy>=1.26.0,<2.0.0
+trimesh>=4.4.0
+pymeshlab>=2023.12.post1
+scipy>=1.11.0
+networkx>=3.3

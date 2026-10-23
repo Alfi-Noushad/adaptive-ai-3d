@@ -1,5 +1,9 @@
+import os
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.database.session import engine, Base
 import app.models.entities
@@ -30,3 +34,11 @@ app.include_router(auth_router)
 app.include_router(upload_router)
 app.include_router(projects_router)
 app.include_router(analyze_router)
+
+# Mesh and backend containers share this directory through the compose volume.
+# Locally it resolves to the repository's storage directory, also used by Mesh.
+mesh_storage_root = Path(
+    os.getenv("MESH_STORAGE_ROOT", str(Path(__file__).resolve().parents[2] / "storage"))
+).resolve()
+mesh_storage_root.mkdir(parents=True, exist_ok=True)
+app.mount("/mesh-assets", StaticFiles(directory=str(mesh_storage_root)), name="mesh-assets")

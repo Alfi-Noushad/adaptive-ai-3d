@@ -14,6 +14,16 @@ export interface ProjectSummary {
   thumbnail_url?: string
 }
 
+export interface BackendProjectSummary {
+  id?: string | number
+  project_id?: string | number
+  name?: string
+  title?: string
+  status?: string
+  created_at?: string
+  thumbnail_url?: string
+}
+
 export interface ProjectReport {
   full_report?: ProjectReport
   project?: ProjectSummary
@@ -33,7 +43,7 @@ export interface AuthData {
 }
 
 export interface UploadData {
-  project_id?: string
-  id?: string
-  project?: ProjectSummary
+  project_id?: string | number
+  id?: string | number
+  project?: BackendProjectSummary
 }

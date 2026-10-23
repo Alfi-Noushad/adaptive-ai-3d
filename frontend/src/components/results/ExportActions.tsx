@@ -23,10 +23,10 @@ export default function ExportActions({ projectId }: { projectId: string }) {
         }
       }
       if (!url) { setMessage('Export requested. Check the export job status in a moment.'); return }
-      const link = document.createElement('a'); link.href = url; link.download = `${projectId}.${format}`; link.target = '_blank'; link.rel = 'noreferrer'; link.click()
+      const link = document.createElement('a'); link.href = new URL(url, api.defaults.baseURL).toString(); link.download = `${projectId}.${format}`; link.target = '_blank'; link.rel = 'noreferrer'; link.click()
       setMessage(`${format.toUpperCase()} export is ready.`)
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Export could not be created.') }
     finally { setBusy(null) }
   }
-  return <section className="rounded-xl border border-border bg-card p-5"><h2 className="font-semibold">Export model</h2><p className="mt-1 text-sm text-muted-foreground">Download the generated asset.</p><div className="mt-4 flex flex-wrap gap-2"><Button variant="outline" disabled={Boolean(busy)} onClick={() => exportModel('glb')}>{busy === 'glb' ? <FiLoader className="animate-spin" /> : <FiDownload />} Export GLB</Button><Button variant="ghost" disabled={Boolean(busy)} onClick={() => exportModel('obj')}>OBJ</Button></div>{message && <p role="status" className="mt-3 text-sm text-emerald-700">{message}</p>}{error && <p role="alert" className="mt-3 text-sm text-red-600">{error}</p>}</section>
+  return <section className="rounded-xl border border-border bg-card p-5"><h2 className="font-semibold">Export model</h2><p className="mt-1 text-sm text-muted-foreground">Download the generated asset.</p><div className="mt-4 flex flex-wrap gap-2"><Button variant="outline" disabled={Boolean(busy)} onClick={() => exportModel('glb')}>{busy === 'glb' ? <FiLoader className="animate-spin" /> : <FiDownload />} Export GLB</Button></div>{message && <p role="status" className="mt-3 text-sm text-emerald-700">{message}</p>}{error && <p role="alert" className="mt-3 text-sm text-red-600">{error}</p>}</section>
 }

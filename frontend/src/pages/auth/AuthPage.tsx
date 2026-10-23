@@ -69,13 +69,13 @@ export default function AuthPage({ mode }: { mode: Mode }) {
   return (
     <main className="grid min-h-screen bg-background lg:grid-cols-2">
       <section className="hidden flex-col justify-between bg-slate-950 p-12 text-white lg:flex">
-        <Link to="/" className="flex items-center gap-3 text-lg font-semibold"><FiBox className="text-indigo-300" /> Nexus 3D</Link>
+        <Link to="/" className="flex items-center gap-3 text-lg font-semibold"><FiBox className="text-indigo-300" /> Adaptive AI 3D</Link>
         <div className="max-w-lg"><p className="mb-4 text-sm font-medium uppercase tracking-[0.22em] text-indigo-300">Research workspace</p><h1 className="text-4xl font-semibold leading-tight">Turn a single image into an adaptive 3D workflow.</h1><p className="mt-5 text-slate-300">Upload, evaluate, and inspect reconstruction projects in one place.</p></div>
         <p className="text-xs text-slate-400">Adaptive AI Framework for Intelligent Multi-Model 2D-to-3D Asset Generation, Optimization and Visualization</p>
       </section>
       <section className="flex items-center justify-center p-6 sm:p-10">
         <div className="w-full max-w-md">
-          <Link to="/" className="mb-10 flex items-center gap-2 font-semibold lg:hidden"><FiBox /> Nexus 3D</Link>
+          <Link to="/" className="mb-10 flex items-center gap-2 font-semibold lg:hidden"><FiBox /> Adaptive AI 3D</Link>
           <p className="text-sm font-medium text-indigo-600">Your 3D research workspace</p>
           <h2 className="mt-2 text-3xl font-semibold tracking-tight">{title}</h2>
           <p className="mt-2 text-sm text-muted-foreground">{mode === 'login' ? 'Sign in to continue to your projects.' : mode === 'register' ? 'Create an account to start a project.' : 'Enter your email and we’ll send reset instructions.'}</p>

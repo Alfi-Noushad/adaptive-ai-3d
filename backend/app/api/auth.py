@@ -141,6 +141,5 @@ def admin_only_endpoint(admin_user: Annotated[dict, Depends(require_role("admin"
     return api_response(
         status="success",
         message="Admin access granted",
-        data=admin_user,
         data=admin_user
     )

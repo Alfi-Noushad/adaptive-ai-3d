@@ -11,14 +11,38 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/meshgen_db
       - REDIS_URL=redis://redis:6379/0
+      - MESH_SERVICE_URL=http://mesh:8002
+      - MESH_STORAGE_ROOT=/shared
       - PYTHONUNBUFFERED=1
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_started
+      mesh:
+        condition: service_healthy
     volumes:
       - ./backend:/app
+      - shared_mesh_storage:/shared
+    restart: unless-stopped
+
+  mesh:
+    build:
+      context: .
+      dockerfile: mesh/Dockerfile
+    container_name: meshgen_mesh
+    ports:
+      - "8002:8002"
+    environment:
+      - MESH_STORAGE_ROOT=/shared
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - shared_mesh_storage:/shared
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8002/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     restart: unless-stopped
 
   postgres:
@@ -51,3 +75,4 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  shared_mesh_storage:
