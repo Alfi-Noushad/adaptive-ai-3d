@@ -24,6 +24,17 @@ from app.core.response import api_response
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
+fake_users_db = {}
+
+def make_envelope(message: str, data=None, error=None, status_code="success"):
+    return {
+        "status": status_code,
+        "message": message,
+        "data": data,
+        "error": error,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
 @router.post("/register")
 def register(user_data: UserRegisterRequest, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user_data.email).first()
@@ -130,5 +141,6 @@ def admin_only_endpoint(admin_user: Annotated[dict, Depends(require_role("admin"
     return api_response(
         status="success",
         message="Admin access granted",
+        data=admin_user,
         data=admin_user
     )

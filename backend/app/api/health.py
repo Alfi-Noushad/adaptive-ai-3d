@@ -6,7 +6,7 @@ router = APIRouter(tags=["Health"])
 @router.get("/health", response_model=APIResponse)
 async def health_check():
     return APIResponse(
-        status="ok",
+        status="success",
         message="Backend service is operational",
         data={"service": "2d-to-3d-converter-backend"}
     )
