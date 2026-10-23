@@ -21,7 +21,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 fake_users_db = {}
 
-def make_envelope(message: str, data=None, error=None, status_code="ok"):
+def make_envelope(message: str, data=None, error=None, status_code="success"):
     return {
         "status": status_code,
         "message": message,

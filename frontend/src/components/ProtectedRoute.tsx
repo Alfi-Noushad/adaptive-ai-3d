@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthStore } from '../store/authStore'
 
 export default function ProtectedRoute() {
-  // Dynamically check the browser's local storage for a session
-  const isAuthenticated = localStorage.getItem('nexus_auth') === 'true';
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
