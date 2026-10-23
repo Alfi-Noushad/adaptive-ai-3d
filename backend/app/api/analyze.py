@@ -11,7 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from mesh.scripts.mesh_analyasis import analyze_mesh
+from mesh.analysis.mesh_analysis import analyze_mesh
 
 router = APIRouter(tags=["Mesh Analysis"])
 
